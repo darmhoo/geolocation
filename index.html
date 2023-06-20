@@ -31,7 +31,7 @@ async function showPosition(position) {
     x.innerHTML="Latitude: " + position.coords.latitude + 
     "<br>Longitude: " + position.coords.longitude;
 
-    //let res = await getInWords(position.coords.longitude, position.coords.latitude);
+    let res = await getInWords(position.coords.longitude, position.coords.latitude);
 }
 
 async function getInWords(longitude, latitude){
