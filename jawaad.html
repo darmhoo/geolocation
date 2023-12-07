@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>jawaad.html</title>
+    
+</head>
+<body>
+    <h2>Record and store Location</h2>
+    <p>Click the button to get your coordinates.</p>
+
+<button onclick="getLocation()">Get Location</button>
+
+<p id="demo"></p>
+<p id="words"></p>
+
+<script>
+var x = document.getElementById("demo");
+var y = document.getElementById("words");
+
+function getLocation() {
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(showPosition);
+  } else { 
+    x.innerHTML = "Geolocation is not supported by this browser.";
+  }
+}
+    
+async function showPosition(position) {
+    x.innerHTML="Latitude: " + position.coords.latitude + 
+    "<br>Longitude: " + position.coords.longitude;
+
+    let res = await getInWords(position.coords.longitude, position.coords.latitude);
+}
+
+async function getInWords(longitude, latitude){
+    let apiKey = "d0c67958a1f64018a97ee4eeb2aec4f0";
+    fetch(`https://api.geoapify.com/v1/geocode/reverse?lat=${latitude}&lon=${longitude}&format=json&apiKey=${apiKey}`,
+    {
+        method: 'GET',
+        headers: {
+            'Accept': '*/*',
+            'User-Agent': 'Thunder Client (https://www.thunderclient.com)'
+        }
+    }).then(response => {
+        return response.json();
+    }).then(res => {
+        data = res.results[0].formatted;
+        console.log(data);
+        y.innerHTML = data;
+    })
+}
+//http://api.positionstack.com/v1/reverse?access_key=473eb4ae7dac8eb657fb43309ec3c0b0&query= 6.5994752,3.3488896
+</script>
+
+</body>
+</html>
